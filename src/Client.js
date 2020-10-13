@@ -741,6 +741,41 @@ class Client extends EventEmitter {
         return { gid: createRes.gid, missingParticipants };
     }
 
+    /**
+     * Returns all current Labels
+     * @returns {Promise<Array<Label>>}
+     */
+    async getLabels() {
+        return JSON.parse( await this.pupPage.evaluate(async () => {
+            return JSON.stringify(await window.WWebJS.getLabels());
+        }) );
+    }
+
+    /**
+     * Returns Label of specified chat 
+     * @returns {Promise<Label>}
+     */
+    async getChatLabels(chatId){
+        return JSON.parse( await this.pupPage.evaluate(async (chatId) => {
+            return JSON.stringify(await window.WWebJS.getChatLabels(chatId));
+        }, chatId) );
+    }
+
+    /**
+     * Returns all Chats of specified label
+     * @returns {Array<ChatId>}
+     */
+    async getAllChatsFromLabel(labelId){
+        return ( await this.pupPage.evaluate(async (labelId) => {
+            return (window.Store.Label.get(labelId).labelItemCollection.models.reduce(function(result, i) {
+                if(i.parentType === 'Chat'){  
+                    result.push(i.parentId);
+                }
+                return result;},[]));
+        }, labelId) );
+
+    }
+
 }
 
 module.exports = Client;

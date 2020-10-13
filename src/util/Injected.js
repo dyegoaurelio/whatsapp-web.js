@@ -317,6 +317,21 @@ exports.LoadUtils = () => {
         return true;
     };
 
+    window.WWebJS.getLabels = async () =>{
+        return window.Store.Label.models.map( function (label){  return  { 'name': label.name , 'hexColor': label.hexColor , 'id':label.id }; });
+    };
+
+    window.WWebJS.getChatLabels = async (chatId) => {
+        let chatLabelsIndex = await window.WWebJS.getChat(chatId);
+        chatLabelsIndex = chatLabelsIndex.labels;
+        //console.log(chatLabelsIndex)
+        let res = [];
+        for (var i in chatLabelsIndex){
+            res.push({ 'name': window.Store.Label.get(chatLabelsIndex[i]).name , 'hexColor': window.Store.Label.get(chatLabelsIndex[i]).hexColor ,  'id' : chatLabelsIndex[i] } );    
+        }
+
+        return res;
+    };
 };
 
 exports.MarkAllRead = () => {
