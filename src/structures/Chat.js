@@ -234,7 +234,7 @@ class Chat extends Base {
      * @returns {Array<Labels>}
      */
     async getLabels() {
-        return await this.client.getChatLabels(this.id._serialized);
+        return this.client.getChatLabels(this.id._serialized);
     }
 }
 
