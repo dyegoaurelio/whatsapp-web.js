@@ -757,9 +757,10 @@ class Client extends EventEmitter {
      * @returns {Promise<Label>}
      */
     async getChatLabels(chatId){
-        return JSON.parse( await this.pupPage.evaluate(async (chatId) => {
-            return JSON.stringify(await window.WWebJS.getChatLabels(chatId));
-        }, chatId) );
+        const x = await this.pupPage.evaluate(async (chatId) => {
+            return  window.WWebJS.getChatLabels(chatId);
+        }, chatId);
+        return x; 
     }
 
     /**
