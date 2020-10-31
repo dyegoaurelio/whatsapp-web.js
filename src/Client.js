@@ -768,13 +768,13 @@ class Client extends EventEmitter {
      * @returns {Array<ChatId>}
      */
     async getAllChatsFromLabel(labelId){
-        return ( await this.pupPage.evaluate(async (labelId) => {
+        return this.pupPage.evaluate(async (labelId) => {
             return (window.Store.Label.get(labelId).labelItemCollection.models.reduce(function(result, i) {
                 if(i.parentType === 'Chat'){  
                     result.push(i.parentId);
                 }
                 return result;},[]));
-        }, labelId) );
+        }, labelId);
 
     }
 
