@@ -775,7 +775,6 @@ class Client extends EventEmitter {
                 }
                 return result;},[]));
         }, labelId);
-
     }
 
 }

@@ -317,8 +317,13 @@ exports.LoadUtils = () => {
         return true;
     };
 
+    window.WWebJS.getLabelModel = label => {
+        return {'name': label.name , 'hexColor' :  label.hexColor , 'id' : label.id }; 
+    };
+
     window.WWebJS.getLabels = async () =>{
-        return window.Store.Label.models.map(label =>  { return {'name': label.name , 'hexColor' :  label.hexColor , 'id' : label.id };});
+        var labels = window.Store.Label.models.map(label =>  window.WWebJS.getLabelModel(label));
+        return labels;
     };
 
     window.WWebJS.getChatLabels = async (chatId) => {
@@ -326,7 +331,7 @@ exports.LoadUtils = () => {
         chatLabelsIndex = chatLabelsIndex.labels;
         let res = [];
         for (var i in chatLabelsIndex){
-            res.push({ 'name': window.Store.Label.get(chatLabelsIndex[i]).name , 'hexColor': window.Store.Label.get(chatLabelsIndex[i]).hexColor ,  'id' : chatLabelsIndex[i] } );    
+            res.push( window.WWebJS.getLabelModel(window.Store.Label.get(chatLabelsIndex[i])));
         }
 
         return res;
