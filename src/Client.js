@@ -746,9 +746,10 @@ class Client extends EventEmitter {
      * @returns {Promise<Array<Label>>}
      */
     async getLabels() {
-        return JSON.parse( await this.pupPage.evaluate(async () => {
-            return JSON.stringify(await window.WWebJS.getLabels());
-        }) );
+        const x = await this.pupPage.evaluate(async () => {
+            return  window.WWebJS.getLabels();
+        }) ; 
+        return x;
     }
 
     /**
