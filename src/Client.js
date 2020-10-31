@@ -11,7 +11,7 @@ const { WhatsWebURL, DefaultOptions, Events, WAState } = require('./util/Constan
 const { ExposeStore, LoadUtils } = require('./util/Injected');
 const ChatFactory = require('./factories/ChatFactory');
 const ContactFactory = require('./factories/ContactFactory');
-const { ClientInfo, Message, MessageMedia, Contact, Location, GroupNotification } = require('./structures');
+const { ClientInfo, Message, MessageMedia, Contact, Location, GroupNotification , Label } = require('./structures');
 /**
  * Starting point for interacting with the WhatsApp Web API
  * @extends {EventEmitter}
@@ -749,7 +749,7 @@ class Client extends EventEmitter {
         const x = await this.pupPage.evaluate(async () => {
             return  window.WWebJS.getLabels();
         }) ; 
-        return x;
+        return x.map(data => new Label(data));
     }
 
     /**
@@ -760,7 +760,7 @@ class Client extends EventEmitter {
         const x = await this.pupPage.evaluate(async (chatId) => {
             return  window.WWebJS.getChatLabels(chatId);
         }, chatId);
-        return x; 
+        return x.map(data => new Label(data)); 
     }
 
     /**
